@@ -17,3 +17,12 @@ def print_items(arr):
     for item in arr:
         print(item, end=" ")
     print()
+    
+# Sorts the players list according to the scores that players get and print the players from last to first
+def print_winner():
+    
+    bubble_sort(scores, players)  
+    scores.reverse()
+    players.reverse()
+    for i in range(len(players)-1, -1, -1):
+        print(str(i+1) + ". " + players[i] + " ( " + str(scores[i]) + " )")
