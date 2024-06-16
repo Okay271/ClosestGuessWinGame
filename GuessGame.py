@@ -26,3 +26,27 @@ def print_winner():
     players.reverse()
     for i in range(len(players)-1, -1, -1):
         print(str(i+1) + ". " + players[i] + " ( " + str(scores[i]) + " )")
+
+# Checks whether there are differences with same amount and return the groups of values that have dsame differences. 
+# Same differences get same points afterwards.
+def how_many_same():
+    same_groups = []
+    count = 0
+    start_value = 0
+    entered = False
+    for i in range(len(differences)-1):
+        if differences[i] == differences[i+1]:
+            count += 1
+            if not entered:
+                start_value = i
+                entered = True
+        else:
+            if entered:
+                same_groups.append((count+1, start_value))
+                count = 0
+                entered = False
+    
+    if entered:
+        same_groups.append((count+1, start_value))
+
+    return same_groups
