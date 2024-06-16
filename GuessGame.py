@@ -50,3 +50,71 @@ def how_many_same():
         same_groups.append((count+1, start_value))
 
     return same_groups
+
+players = input("Enter Players' Names By Seperating Comas:: ").split(",")
+scores = []
+
+for i in range(len(players)):
+    scores.append(0)
+    
+is_finished = False
+hand = 1
+
+while is_finished == False:
+    
+    print_items(players)
+    print_items(scores)
+    
+    print("Question " + str(hand)) 
+    answer = input("Enter Guesses  By Seperating Comas |||| Enter f To Finish The Game! :: ")
+    
+    if answer.lower() == "f": # FINISH
+        is_finished = True
+        print_winner()
+    
+    elif len(answer.split(",")) != len(players): # MISSING GUESS NUMBER
+        print("Try Again!")
+    
+    else:
+        hand += 1
+        answer = answer.split(",")
+        correct_answer = int(input("Enter the Correct Answer:: "))
+        differences = []
+        players_for_count = players.copy()
+        
+        for values in answer:
+            differences.append(abs(correct_answer - int(values)))
+        
+        bubble_sort(differences, players_for_count)
+        
+        print("-----FROM CLOSEST TO FARTHEST-----")
+        
+        print_items(players_for_count)
+        print_items(differences)
+        
+        print("-----******************-----")
+        max_score = len(players)
+        m = 0
+        same_groups = how_many_same()
+        
+        while m < len(players):
+            
+            is_same_group = False
+            
+            for group in same_groups:
+                count, start = group
+                if m == start:
+                    is_same_group = True
+                    for i in range(start, start+count):
+                        index = players.index(players_for_count[m])
+                        scores[index] += max_score
+                        m +=1
+                    max_score -= 1
+                    break
+            
+            if not is_same_group:
+                index = players.index(players_for_count[m])
+                scores[index] += max_score
+                max_score -= 1
+                m += 1
+                
