@@ -12,12 +12,6 @@ def bubble_sort(arr1, arr2):
         if not is_swapped:
             break
 
-# Prints the items in a unique way
-def print_items(arr):
-    for item in arr:
-        print(item, end=" ")
-    print()
-    
 # Sorts the players list according to the scores that players get and print the players from last to first
 def print_winner():
     
@@ -62,8 +56,9 @@ hand = 1
 
 while is_finished == False:
     
-    print_items(players)
-    print_items(scores)
+    print("-------SCORE TABLE-------")
+    for i in range(len(players)):
+        print(players[i] + " --> " + str(scores[i]))
     
     print("Question " + str(hand)) 
     answer = input("Enter Guesses  By Seperating Comas |||| Enter f To Finish The Game! :: ")
@@ -74,6 +69,7 @@ while is_finished == False:
     
     elif len(answer.split(",")) != len(players): # MISSING GUESS NUMBER
         print("Try Again!")
+        print()
     
     else:
         hand += 1
@@ -88,9 +84,8 @@ while is_finished == False:
         bubble_sort(differences, players_for_count)
         
         print("-----FROM CLOSEST TO FARTHEST-----")
-        
-        print_items(players_for_count)
-        print_items(differences)
+        for i in range(len(players)):
+            print(players_for_count[i] + " --> " + str(differences[i]))
         
         print("-----******************-----")
         max_score = len(players)
