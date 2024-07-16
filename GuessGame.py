@@ -45,7 +45,11 @@ def how_many_same():
 
     return same_groups
 
-players = input("Enter Players' Names By Seperating Comas:: ").split(",")
+# Checks whether obtained answers' number is equal to the total number of the players' number
+def check_answer_number(answers):
+    return len(players) == len(answers)
+     
+players = input("Enter Players' Names By Seperating ',' :: ").split(",")
 scores = []
 
 for i in range(len(players)):
@@ -56,46 +60,57 @@ hand = 1
 
 while is_finished == False:
     
+    print()
     print("-------SCORE TABLE-------")
     for i in range(len(players)):
         print(players[i] + " --> " + str(scores[i]))
     
+    print()
     print("Question " + str(hand)) 
-    answer = input("Enter Guesses  By Seperating Comas |||| Enter f To Finish The Game! :: ")
+    answer = input("For Guess Question Enter 'g' || For Multiple Choice Questions Enter 'm' || Enter f To Finish The Game :: ")
     
     if answer.lower() == "f": # FINISH
         is_finished = True
         print_winner()
     
-    elif len(answer.split(",")) != len(players): # MISSING GUESS NUMBER
-        print("Try Again!")
-        print()
-    
-    else:
+    elif answer.lower() == "g":
+        
+        print("----- WELCOME TO THE GUESSING SECTION -----")
+        
+        valid_data = False
+        
+        while not valid_data:
+            answer = input("Enter Answers By Seperating ',' and Using Capital Letters :: ").split(",")
+            is_valid = check_answer_number(answer)
+            
+            if is_valid:
+                valid_data = True
+            else:
+                print("Try Again! Your Input Contradicts With Player Number")
+            
         hand += 1
-        answer = answer.split(",")
-        correct_answer = int(input("Enter the Correct Answer:: "))
+        correct_answer = float(input("Enter the Correct Answer:: "))
         differences = []
         players_for_count = players.copy()
-        
+            
         for values in answer:
-            differences.append(abs(correct_answer - int(values)))
-        
+            differences.append(abs(correct_answer - float(values)))
+            
         bubble_sort(differences, players_for_count)
-        
+            
         print("-----FROM CLOSEST TO FARTHEST-----")
         for i in range(len(players)):
             print(players_for_count[i] + " --> " + str(differences[i]))
-        
+            
         print("-----******************-----")
         max_score = len(players)
         m = 0
         same_groups = how_many_same()
-        
+            
         while m < len(players):
             
             is_same_group = False
-            
+                
             for group in same_groups:
                 count, start = group
                 if m == start:
@@ -106,10 +121,36 @@ while is_finished == False:
                         m +=1
                     max_score -= 1
                     break
-            
+                
             if not is_same_group:
                 index = players.index(players_for_count[m])
                 scores[index] += max_score
                 max_score -= 1
                 m += 1
+        
+    elif answer.lower() == "m":
+        
+        print("----- WELCOME TO THE MULTIPLE CHOICE SECTION -----")
+        valid_data = False
+        
+        while not valid_data:
+            answer = input("Enter Answers By Seperating ',' and Using Capital Letters :: ").split(",")
+            is_valid = check_answer_number(answer)
+            
+            if is_valid:
+                valid_data = True
+            else:
+                print("Try Again! Your Input Contradicts With Player Number")
+                    
+        hand += 1
+        correct_answer = input("Enter The Correct Choice :: ").upper()
+        max_score = len(players)
+            
+        for i in range(len(players)):
+            if(answer[i] == correct_answer):
+                scores[i] += max_score
+            
+    else:
+        print("Check Your Input!!!")
+       
                 
